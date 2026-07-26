@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}Файлы и расчёты{% endblock %}
+
+{% block content %}
+<div class="bg-white rounded-lg shadow p-6">
+
+    <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+        <h1 class="text-xl font-semibold">Загруженные файлы</h1>
+        <div class="flex items-center gap-3 text-sm">
+            <label class="text-gray-600">Сортировка по времени:</label>
+            <select id="sort-select" class="border rounded px-2 py-1">
+                <option value="desc">Сначала новые</option>
+                <option value="asc">Сначала старые</option>
+            </select>
+            <label class="text-gray-600">На странице:</label>
+            <select id="size-select" class="border rounded px-2 py-1">
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="flex flex-wrap items-center gap-4 mb-3 text-sm">
+        <label class="flex items-center gap-1 cursor-pointer">
+            <input type="checkbox" id="select-page-checkbox">
+            Выбрать все на странице
+        </label>
+        <button id="select-all-btn" class="text-blue-600 hover:underline">Выбрать все файлы (по всему списку)</button>
+        <button id="clear-selection-btn" class="text-gray-500 hover:underline">Снять выделение</button>
+        <span id="selected-count" class="text-gray-600 ml-auto">Выбрано файлов: 0</span>
+    </div>
+
+    <div class="overflow-x-auto">
+        <table class="w-full text-sm text-left border-collapse">
+            <thead>
+                <tr class="border-b bg-gray-50">
+                    <th class="p-2 w-10"></th>
+                    <th class="p-2">Имя файла</th>
+                    <th class="p-2">Время скачивания</th>
+                </tr>
+            </thead>
+            <tbody id="files-table-body"></tbody>
+        </table>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-between gap-3 mt-4">
+        <div id="pagination-info" class="text-sm text-gray-600"></div>
+        <div class="flex items-center gap-2">
+            <button id="prev-page-btn" class="px-3 py-1 border rounded disabled:opacity-40">Назад</button>
+            <span id="page-indicator" class="text-sm">1</span>
+            <button id="next-page-btn" class="px-3 py-1 border rounded disabled:opacity-40">Вперёд</button>
+        </div>
+    </div>
+
+    <div class="mt-6 border-t pt-4 flex items-center gap-3">
+        <button id="calc-btn"
+            class="bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white font-medium px-5 py-2 rounded-lg transition">
+            Выполнить расчёты
+        </button>
+        <span id="calc-error" class="text-red-600 text-sm hidden"></span>
+    </div>
+
+    <div id="calc-results" class="mt-6 hidden">
+        <h2 class="text-lg font-semibold mb-3">Результаты расчётов</h2>
+
+        <div class="mb-6">
+            <h3 class="font-medium mb-2">Суммарная статистика по цифрам</h3>
+            <div id="total-stat-grid" class="grid grid-cols-5 sm:grid-cols-10 gap-2 text-center"></div>
+        </div>
+
+        <div>
+            <h3 class="font-medium mb-2">Статистика по каждому файлу</h3>
+            <div class="overflow-x-auto">
+                <table class="w-full text-sm border-collapse">
+                    <thead>
+                        <tr class="border-b bg-gray-50">
+                            <th class="p-2 text-left">Файл</th>
+                            <th class="p-2 text-center" colspan="10">Количество цифр (0–9)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="file-stat-body"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
